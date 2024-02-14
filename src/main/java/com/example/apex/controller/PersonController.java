@@ -5,6 +5,7 @@ import com.example.apex.dto.PersonStatsInputDto;
 import com.example.apex.entity.Person;
 import com.example.apex.service.PersonService;
 import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping("/create-person")
-    public ResponseEntity<Person> createPerson(@RequestBody Person person){
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person){
         return new ResponseEntity(personService.createPerson(person), HttpStatus.OK);
     }
 
@@ -47,6 +48,12 @@ public class PersonController {
     @PostMapping("/get-person-stats")
     public ResponseEntity<PersonStatsDto> getPersonStats(@RequestBody PersonStatsInputDto input){
         return new ResponseEntity(personService.getPersonStats(input), HttpStatus.OK);
+    }
+
+    @PostMapping("/create-batch")
+    public void createPersonInBatch(){
+        personService.createPersonInBatch();
+        return;
     }
 
 

@@ -50,12 +50,7 @@ public class FileService {
                 String contents = wordExtractor.getText();
                 int count = (int) Arrays.stream(contents.split("\\s+")).filter(s -> s.equalsIgnoreCase(search)).count();
                 if(count > 0) found = true;
-                SearchResult searchResult = new SearchResult();
-                searchResult.setWord(search);
-                searchResult.setFilename(file.getName());
-                searchResult.setCount(count);
-                searchResult.setCreatedBy("Abhinav");
-                searchResult.setCreatedDate(Calendar.getInstance().getTime());
+                SearchResult searchResult = getSearchResult(search, file, count);
                 searchResultDao.saveSearchResult(searchResult);
                 searchResultList.add(searchResult);
             }
@@ -63,6 +58,16 @@ public class FileService {
         }
 
         return searchResultList;
+    }
+
+    private SearchResult getSearchResult(String search, File file, int count) {
+        SearchResult searchResult = new SearchResult();
+        searchResult.setWord(search);
+        searchResult.setFilename(file.getName());
+        searchResult.setCount(count);
+        searchResult.setCreatedBy("Abhinav");
+        searchResult.setCreatedDate(Calendar.getInstance().getTime());
+        return searchResult;
     }
 
     public List<SearchDto> searchUser(String search) {
